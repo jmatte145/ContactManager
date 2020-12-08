@@ -1,0 +1,34 @@
+﻿<Window x:Class="ContactManager.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ContactManager"
+        mc:Ignorable="d"
+        Title="Contact Manager" Height="450" Width="800">
+    <DockPanel Margin="10">
+        <StackPanel DockPanel.Dock="Right" Margin="10,0">
+            <StackPanel.Resources>
+                <Style TargetType="Button">
+                    <Setter Property="Margin" Value="0,0,0,5"/>
+                </Style>
+            </StackPanel.Resources>
+            <TextBlock FontWeight="Bold" Margin="0,0,0,10">Contact Manager</TextBlock>
+            <Button x:Name="NewContact" Click="NewContact_Click">New Contact</Button>
+            <Button x:Name="ViewContact" Click="ViewContact_Click">View Contact</Button>
+            <Button x:Name="EditContact" Click="EditContact_Click">Edit Contact</Button>
+            <Button x:Name="DeleteContact" Click="DeleteContact_Click">Delete Contact</Button>
+            <Button x:Name="ImportContact" Click="ImportContact_Click">Import Contacts</Button>
+            <Button x:Name="ExportContact" Click="ExportContact_Click">Export Contacts</Button>
+        </StackPanel>
+        <ListBox x:Name="contactList" HorizontalContentAlignment="Stretch" SelectionMode="Multiple" SelectionChanged="contactList_SelectionChanged">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <WrapPanel>
+                        <TextBlock Text="{Binding FirstName}" FontWeight="Bold" FontSize="20"/>
+                    </WrapPanel> 
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </DockPanel>
+</Window>

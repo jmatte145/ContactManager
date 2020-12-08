@@ -1,0 +1,17 @@
+D:\repos\ContactManager\bin\Debug\ContactManager.exe.config
+D:\repos\ContactManager\bin\Debug\ContactManager.exe
+D:\repos\ContactManager\bin\Debug\ContactManager.pdb
+D:\repos\ContactManager\obj\Debug\ContactManager.csprojAssemblyReference.cache
+D:\repos\ContactManager\obj\Debug\MainWindow.g.cs
+D:\repos\ContactManager\obj\Debug\App.g.cs
+D:\repos\ContactManager\obj\Debug\ContactManager_MarkupCompile.cache
+D:\repos\ContactManager\obj\Debug\ContactManager_MarkupCompile.lref
+D:\repos\ContactManager\obj\Debug\MainWindow.baml
+D:\repos\ContactManager\obj\Debug\ContactManager.g.resources
+D:\repos\ContactManager\obj\Debug\ContactManager.Properties.Resources.resources
+D:\repos\ContactManager\obj\Debug\ContactManager.csproj.GenerateResource.cache
+D:\repos\ContactManager\obj\Debug\ContactManager.csproj.CoreCompileInputs.cache
+D:\repos\ContactManager\obj\Debug\ContactManager.exe
+D:\repos\ContactManager\obj\Debug\ContactManager.pdb
+D:\repos\ContactManager\obj\Debug\Windows\AddContact.g.cs
+D:\repos\ContactManager\obj\Debug\Windows\AddContact.baml
