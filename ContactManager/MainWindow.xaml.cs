@@ -41,7 +41,10 @@ namespace ContactManager
             contactList.Items.Refresh();
 
             var DBContact = ContactDB.CInstance;
-            DBContact.AddContact(ac.fNameInput.Text, ac.lNameInput.Text, ac.PhoneInput.Text, ac.EmailInput.Text);
+            if(ac.fNameInput.Text != "" && ac.lNameInput.Text != "" && ac.fNameInput.Text != "" && ac.fNameInput.Text != "")
+            {
+                DBContact.AddContact(ac.fNameInput.Text, ac.lNameInput.Text, ac.PhoneInput.Text, ac.EmailInput.Text);
+            }
             DBContact.UpdateDB();
             List<Contact> contacts = new List<Contact>();
             contacts = DBContact.getList();
@@ -60,7 +63,26 @@ namespace ContactManager
 
         private void DeleteContact_Click(object sender, RoutedEventArgs e)
         {
+            int idSelect = 0;
+            string SelectedItem = contactList.SelectedItem.ToString();  
+            string[] splitSelected = SelectedItem.Split(' ');
 
+
+            int.TryParse(splitSelected[0], out idSelect);
+
+            contactList.ItemsSource = null;
+            contactList.Items.Clear();
+            contactList.Items.Refresh();
+
+            var DBContact = ContactDB.CInstance;
+            if(idSelect != 0)
+            {
+                DBContact.DeleteContact(idSelect);
+            }
+            DBContact.UpdateDB();
+            List<Contact> contacts = new List<Contact>();
+            contacts = DBContact.getList();
+            contactList.ItemsSource = contacts;
         }
 
         private void contactList_SelectionChanged(object sender, SelectionChangedEventArgs e)

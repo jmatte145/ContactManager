@@ -51,23 +51,7 @@ namespace ContactManager
                 contacts.Remove(c);
             }
 
-            SqlConnection con = new SqlConnection(@"data source=localhost\SQLEXPRESS;database = ContactManager;Trusted_Connection=True");
-            SqlCommand cm = new SqlCommand("select Id, FirstName, LastName, Phone, Email from Contact", con);
-            con.Open();
-            SqlDataReader sdr = cm.ExecuteReader();
-
-            while (sdr.Read())
-            {
-                Contact c = new Contact(
-                    (int)sdr["Id"],
-                    (string)sdr["FirstName"],
-                    (string)sdr["LastName"],
-                    (string)sdr["Phone"],
-                    (string)sdr["Email"]
-                    );
-                contacts.Add(c);
-            }
-            con.Close();
+            LoadDB();
 
         }
 
@@ -84,7 +68,27 @@ namespace ContactManager
             {
                 con.Open();
                 var rowsAffected = cmd.ExecuteNonQuery();
-                Console.WriteLine("Record inserted successfully!");
+            }
+            catch(SqlException exception)
+            {
+                MessageBox.Show("Error! " + exception.ToString());
+            }
+            finally
+            {
+                con.Close();
+            }
+        }
+
+        public void DeleteContact(int id)
+        {
+            SqlConnection con = new SqlConnection(@"data source=localhost\SQLEXPRESS;database = ContactManager;Trusted_Connection=True");
+            string query = "delete from contact where Id=@id";
+            SqlCommand cmd = new SqlCommand(query, con);
+            cmd.Parameters.AddWithValue("@id", id);
+            try
+            {
+                con.Open();
+                var rowsAffected = cmd.ExecuteNonQuery();
             }
             catch(SqlException exception)
             {
