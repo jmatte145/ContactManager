@@ -1,6 +1,8 @@
 ﻿using ContactManager.Windows;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -110,12 +112,51 @@ namespace ContactManager
 
         private void ImportContact_Click(object sender, RoutedEventArgs e)
         {
+            OpenFileDialog opf = new OpenFileDialog();
+            opf.Filter = "Csv files (*.csv)|*.csv|All files(*.*)|*.*";
+            List<Contact> fileContacts = new List<Contact>();
 
+            if(opf.ShowDialog() == true)
+            {
+                string[] fileItems = File.ReadAllLines(opf.FileName);
+
+                foreach(string s in fileItems)
+                {
+                    string[] contactItems = s.Split(',');
+                    Contact c = new Contact(contactItems[0], contactItems[1], contactItems[2], contactItems[3]);
+                    fileContacts.Add(c);
+                }
+            }
+
+            contactList.ItemsSource = null;
+            contactList.Items.Clear();
+            contactList.Items.Refresh();
+
+            var DBContact = ContactDB.CInstance;
+            foreach(Contact c in fileContacts)
+            {
+                DBContact.AddContact(c.FirstName, c.LastName, c.Phone, c.Email);
+            }
+            DBContact.UpdateDB();
+            List<Contact> contacts = new List<Contact>();
+            contacts = DBContact.getList();
+            contactList.ItemsSource = contacts;
         }
 
         private void ExportContact_Click(object sender, RoutedEventArgs e)
         {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "Csv files (*.csv)|*.csv|All files(*.*)|*.*";
+            String fileContent = "";
 
+            if(sfd.ShowDialog() == true)
+            {
+                foreach (Contact c in contactList.Items)
+                {
+                    fileContent +=  c.FirstName + "," + c.LastName + "," + c.Phone + "," + c.Email + "\n";
+                    File.WriteAllText(sfd.FileName, fileContent);
+                }
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
