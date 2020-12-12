@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-D:\repos\ContactManager\obj\Debug\
+C:\Users\Rekmani\Source\Repos\ContactManager\ContactManager\obj\Debug\
 ContactManager
 none
 false
 DEBUG;TRACE
-D:\repos\ContactManager\App.xaml
-21569253177
+C:\Users\Rekmani\Source\Repos\ContactManager\ContactManager\App.xaml
+3-1619439540
 
-9-1023494134
+10-1719657252
 13-1505183044
-MainWindow.xaml;Windows\AddContact.xaml;
+MainWindow.xaml;Windows\AddContact.xaml;Windows\EditContact.xaml;
 
 True
 

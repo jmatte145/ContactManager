@@ -16,6 +16,13 @@
             <TextBlock FontWeight="Bold" Margin="0,0,0,10">Contact Manager</TextBlock>
             <Button x:Name="NewContact" Click="NewContact_Click">New Contact</Button>
             <Button x:Name="ViewContact" Click="ViewContact_Click">View Contact</Button>
+            <Popup Name="View" Placement="Center">
+                <Grid Background="White">
+                    <Rectangle Width="200" Height="200"/>
+                    <TextBlock x:Name="Identity"></TextBlock>
+                    <Button Click="CloseWindow_Click" Width="50" Height="30" Margin="160,160,10,10" >Close</Button>
+                </Grid>
+            </Popup>
             <Button x:Name="EditContact" Click="EditContact_Click">Edit Contact</Button>
             <Button x:Name="DeleteContact" Click="DeleteContact_Click">Delete Contact</Button>
             <Button x:Name="ImportContact" Click="ImportContact_Click">Import Contacts</Button>

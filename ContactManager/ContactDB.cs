@@ -14,6 +14,7 @@ namespace ContactManager
 
         static readonly ContactDB instance = new ContactDB();
         List<Contact> contacts = new List<Contact>();
+        public string connectionString = @"data source=localhost\SQLEXPRESS;database = ContactManager;Trusted_Connection=True";
 
         public static ContactDB CInstance
         {
@@ -25,7 +26,7 @@ namespace ContactManager
 
         public void LoadDB()
         {
-            SqlConnection con = new SqlConnection(@"data source=localhost\SQLEXPRESS;database = ContactManager;Trusted_Connection=True");
+            SqlConnection con = new SqlConnection(connectionString);
             SqlCommand cm = new SqlCommand("select Id, FirstName, LastName, Phone, Email from Contact",con);
             con.Open();
             SqlDataReader sdr = cm.ExecuteReader();
@@ -57,7 +58,7 @@ namespace ContactManager
 
         public void AddContact(string fn, string ln, string p, string e)
         {
-            SqlConnection con = new SqlConnection(@"data source=localhost\SQLEXPRESS;database = ContactManager;Trusted_Connection=True");
+            SqlConnection con = new SqlConnection(connectionString);
             string query = "insert into Contact (FirstName, LastName, Phone, Email) values(@fn,@ln,@p,@e)";
             SqlCommand cmd = new SqlCommand(query, con);
             cmd.Parameters.AddWithValue("@fn",fn);
@@ -81,7 +82,7 @@ namespace ContactManager
 
         public void DeleteContact(int id)
         {
-            SqlConnection con = new SqlConnection(@"data source=localhost\SQLEXPRESS;database = ContactManager;Trusted_Connection=True");
+            SqlConnection con = new SqlConnection(connectionString);
             string query = "delete from contact where Id=@id";
             SqlCommand cmd = new SqlCommand(query, con);
             cmd.Parameters.AddWithValue("@id", id);
@@ -98,6 +99,131 @@ namespace ContactManager
             {
                 con.Close();
             }
+        }
+
+        public void EditContact(int id, string fn, string ln, string p, string e)
+        {
+            SqlConnection con = new SqlConnection(connectionString);
+            string s="";
+            string query = "update Contact set FirstName=@fn, LastName=@ln, Phone=@p, Email=@e where Id=@id";
+            SqlCommand cmd = new SqlCommand(query, con);
+            cmd.Parameters.AddWithValue("@id", id);
+            using(SqlConnection sidecon = new SqlConnection(connectionString))
+            {
+                if (fn == "")
+                {
+                    string FirstName;
+                    SqlCommand specialcmd = new SqlCommand("select FirstName from Contact where Id=@id", sidecon);
+                    sidecon.Open();
+                    FirstName = (string)specialcmd.ExecuteScalar();
+                    cmd.Parameters.AddWithValue("@fn", FirstName);
+                    sidecon.Close();
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@fn", fn);
+                }
+
+                if (ln == "")
+                {
+                    string LastName;
+                    SqlCommand specialcmd = new SqlCommand("select LastName from Contact where Id=@id", sidecon);
+                    sidecon.Open();
+                    LastName = (string)specialcmd.ExecuteScalar();
+                    cmd.Parameters.AddWithValue("@ln", LastName);
+                    sidecon.Close();
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@ln", ln);
+                }
+
+                if (p == "")
+                {
+                    string Phone;
+                    SqlCommand specialcmd = new SqlCommand("select Phone from Contact where Id=@id", sidecon);
+                    sidecon.Open();
+                    Phone = (string)specialcmd.ExecuteScalar();
+                    cmd.Parameters.AddWithValue("@ln", Phone);
+                    sidecon.Close();
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@p", p);
+                }
+
+                if (e == "")
+                {
+                    string Email;
+                    SqlCommand specialcmd = new SqlCommand("select Email from Contact where Id=@id", sidecon);
+                    sidecon.Open();
+                    Email = (string)specialcmd.ExecuteScalar();
+                    cmd.Parameters.AddWithValue("@ln", Email);
+                    sidecon.Close();
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@e", e);
+                }
+            }
+            
+            
+            try
+            {
+                con.Open();
+                var rowsAffected = cmd.ExecuteNonQuery();
+            }
+            catch (SqlException exception)
+            {
+                MessageBox.Show("Error! " + exception.ToString());
+            }
+            finally
+            {
+                con.Close();
+            }
+        }
+
+        public string ViewContact (int id)
+        {
+            String fn, ln, p, e;
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                SqlCommand specialcmd = new SqlCommand("select FirstName from Contact where Id=@id", con);
+                specialcmd.Parameters.AddWithValue("@id", id);
+                con.Open();
+                fn = (string)specialcmd.ExecuteScalar();
+                con.Close();
+            }
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                SqlCommand specialcmd = new SqlCommand("select LastName from Contact where Id=@id", con);
+                specialcmd.Parameters.AddWithValue("@id", id);
+                con.Open();
+                ln = (string)specialcmd.ExecuteScalar();
+                con.Close();
+            }
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                SqlCommand specialcmd = new SqlCommand("select Phone from Contact where Id=@id", con);
+                specialcmd.Parameters.AddWithValue("@id", id);
+                con.Open();
+                p = (string)specialcmd.ExecuteScalar();
+                con.Close();
+            }
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                SqlCommand specialcmd = new SqlCommand("select Email from Contact where Id=@id", con);
+                specialcmd.Parameters.AddWithValue("@id", id);
+                con.Open();
+                e = (string)specialcmd.ExecuteScalar();
+                con.Close();
+            }
+            string s = "id number: " + id +
+                "\nfirst name: " + fn +
+                "\nlast name: " + ln +
+                "\nphone number: " + p +
+                "\nemail address: " + e;
+            return s;
         }
 
         public List<Contact> getList()

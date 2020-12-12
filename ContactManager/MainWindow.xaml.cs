@@ -53,12 +53,41 @@ namespace ContactManager
 
         private void EditContact_Click(object sender, RoutedEventArgs e)
         {
+            EditContact ec = new EditContact();
+            ec.ShowDialog();
+            int idSelect = 0;
+            string SelectedItem = contactList.SelectedItem.ToString();
+            string[] splitSelected = SelectedItem.Split(' ');
+            int.TryParse(splitSelected[0], out idSelect);
 
+            contactList.ItemsSource = null;
+            contactList.Items.Clear();
+            contactList.Items.Refresh();
+
+            var DBContact = ContactDB.CInstance;
+            if (idSelect != 0) 
+            {
+                DBContact.EditContact(idSelect, ec.fNameInput.Text, ec.lNameInput.Text, ec.PhoneInput.Text, ec.EmailInput.Text);
+            }
+            DBContact.UpdateDB();
+            List<Contact> contacts = new List<Contact>();
+            contacts = DBContact.getList();
+            contactList.ItemsSource = contacts;
         }
 
         private void ViewContact_Click(object sender, RoutedEventArgs e)
         {
-
+            View.IsOpen = true;
+            int idSelect = 0;
+            string SelectedItem = contactList.SelectedItem.ToString();
+            string[] splitSelected = SelectedItem.Split(' ');
+            int.TryParse(splitSelected[0], out idSelect);
+            var DBContact = ContactDB.CInstance;;
+            if (idSelect != 0)
+            {
+                string s=DBContact.ViewContact(idSelect);
+                Identity.Text = s;
+            }
         }
 
         private void DeleteContact_Click(object sender, RoutedEventArgs e)
@@ -98,6 +127,16 @@ namespace ContactManager
         private void ExportContact_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void CloseWindow_Click(object sender, RoutedEventArgs e)
+        {
+            View.IsOpen = false;
         }
     }
 }
