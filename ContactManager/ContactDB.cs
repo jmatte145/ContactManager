@@ -104,7 +104,6 @@ namespace ContactManager
         public void EditContact(int id, string fn, string ln, string p, string e)
         {
             SqlConnection con = new SqlConnection(connectionString);
-            string s="";
             string query = "update Contact set FirstName=@fn, LastName=@ln, Phone=@p, Email=@e where Id=@id";
             SqlCommand cmd = new SqlCommand(query, con);
             cmd.Parameters.AddWithValue("@id", id);
@@ -181,49 +180,6 @@ namespace ContactManager
             {
                 con.Close();
             }
-        }
-
-        public string ViewContact (int id)
-        {
-            String fn, ln, p, e;
-            using (SqlConnection con = new SqlConnection(connectionString))
-            {
-                SqlCommand specialcmd = new SqlCommand("select FirstName from Contact where Id=@id", con);
-                specialcmd.Parameters.AddWithValue("@id", id);
-                con.Open();
-                fn = (string)specialcmd.ExecuteScalar();
-                con.Close();
-            }
-            using (SqlConnection con = new SqlConnection(connectionString))
-            {
-                SqlCommand specialcmd = new SqlCommand("select LastName from Contact where Id=@id", con);
-                specialcmd.Parameters.AddWithValue("@id", id);
-                con.Open();
-                ln = (string)specialcmd.ExecuteScalar();
-                con.Close();
-            }
-            using (SqlConnection con = new SqlConnection(connectionString))
-            {
-                SqlCommand specialcmd = new SqlCommand("select Phone from Contact where Id=@id", con);
-                specialcmd.Parameters.AddWithValue("@id", id);
-                con.Open();
-                p = (string)specialcmd.ExecuteScalar();
-                con.Close();
-            }
-            using (SqlConnection con = new SqlConnection(connectionString))
-            {
-                SqlCommand specialcmd = new SqlCommand("select Email from Contact where Id=@id", con);
-                specialcmd.Parameters.AddWithValue("@id", id);
-                con.Open();
-                e = (string)specialcmd.ExecuteScalar();
-                con.Close();
-            }
-            string s = "id number: " + id +
-                "\nfirst name: " + fn +
-                "\nlast name: " + ln +
-                "\nphone number: " + p +
-                "\nemail address: " + e;
-            return s;
         }
 
         public List<Contact> getList()

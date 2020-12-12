@@ -77,17 +77,11 @@ namespace ContactManager
 
         private void ViewContact_Click(object sender, RoutedEventArgs e)
         {
-            View.IsOpen = true;
-            int idSelect = 0;
             string SelectedItem = contactList.SelectedItem.ToString();
             string[] splitSelected = SelectedItem.Split(' ');
-            int.TryParse(splitSelected[0], out idSelect);
-            var DBContact = ContactDB.CInstance;;
-            if (idSelect != 0)
-            {
-                string s=DBContact.ViewContact(idSelect);
-                Identity.Text = s;
-            }
+            Contact cont = new Contact(splitSelected[1], splitSelected[2], splitSelected[3], splitSelected[4]);
+            ViewContact vc = new ViewContact(cont);
+            vc.ShowDialog();
         }
 
         private void DeleteContact_Click(object sender, RoutedEventArgs e)
@@ -114,11 +108,6 @@ namespace ContactManager
             contactList.ItemsSource = contacts;
         }
 
-        private void contactList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
         private void ImportContact_Click(object sender, RoutedEventArgs e)
         {
 
@@ -132,11 +121,6 @@ namespace ContactManager
         private void Button_Click(object sender, RoutedEventArgs e)
         {
 
-        }
-
-        private void CloseWindow_Click(object sender, RoutedEventArgs e)
-        {
-            View.IsOpen = false;
         }
     }
 }

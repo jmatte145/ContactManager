@@ -10,22 +10,26 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace ContactManager.Windows
 {
     /// <summary>
-    /// Interaction logic for EditContact.xaml
+    /// Interaction logic for ViewContact.xaml
     /// </summary>
-    public partial class EditContact : Window
+    public partial class ViewContact : Window
     {
-        public EditContact()
+        public ViewContact(Contact c)
         {
             InitializeComponent();
+
+            fName.Text = c.FirstName;
+            lName.Text = c.LastName;
+            phone.Text = c.Phone;
+            email.Text = c.Email;
         }
 
-        private void Submit_Click(object sender, RoutedEventArgs e)
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
